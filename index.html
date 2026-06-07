@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invite</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Aldrich&family=Pixelify+Sans:wght@400..700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url("heart-bg.jpg");
+      background-size: cover;
+      background-position: center;
+      font-family: "Pixelify Sans", sans-serif;
+      overflow: hidden;
+    }
+
+    #envelope-container {
+      text-align: center;
+      cursor: pointer;
+      color: black;
+      font-size: 34px;
+    }
+
+    #envelope {
+      width: 220px;
+      animation: bounce 1.5s infinite;
+      cursor: pointer;
+      image-rendering: pixelated;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-18px) scale(1.06); }
+    }
+
+    #letter-container {
+      display: none;
+      position: fixed;
+      inset: 0;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .letter-window {
+      position: relative;
+      width: min(90vw, 600px);
+      transform: scale(1.2);
+      opacity: 0;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .letter-window.open {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .invite {
+      width: 100%;
+      height: auto;
+      display: block;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .join-link {
+      position: absolute;
+      right: 5%;
+      bottom: 3.5%;
+      width: 19%;
+      height: 8%;
+      cursor: pointer;
+      border-radius: 50%;
+      background: transparent;
+      z-index: 10;
+    }
+
+    /*
+    Turn this on briefly to see the clickable area:
+    .join-link {
+      outline: 2px solid red;
+      background: rgba(255, 0, 0, 0.2);
+    }
+    */
+  </style>
+</head>
+
+<body>
+  <audio id="catsAudio" src="cats.mp3" loop></audio>
+
+  <div id="envelope-container">
+    <img src="envelope.png" alt="Envelope" id="envelope" />
+    <p>♡ Letter for You ♡</p>
+  </div>
+
+  <div id="letter-container">
+    <div class="letter-window">
+      <img src="invite2.jpg" class="invite" id="gladosInvite" alt="Sleepover invitation" />
+      <a
+        class="join-link"
+        href="https://gladosaperturelabs.github.io/aperturesciencelab/"
+        aria-label="Click here to join"
+      ></a>
+    </div>
+  </div>
+
+  <script>
+    const catsAudio = document.getElementById("catsAudio");
+    const envelopeContainer = document.getElementById("envelope-container");
+    const letterContainer = document.getElementById("letter-container");
+    const letterWindow = document.querySelector(".letter-window");
+
+    function startCatsAudio() {
+      catsAudio.volume = 0.35;
+      catsAudio.play().catch(() => {
+        // Browsers often block background audio until the first click/key press.
+      });
+    }
+
+    window.addEventListener("load", startCatsAudio);
+
+    ["click", "keydown"].forEach(eventName => {
+      document.addEventListener(eventName, startCatsAudio, { once: true });
+    });
+
+    envelopeContainer.addEventListener("click", () => {
+      envelopeContainer.style.display = "none";
+      letterContainer.style.display = "flex";
+
+      setTimeout(() => {
+        letterWindow.classList.add("open");
+      }, 50);
+    });
+  </script>
+</body>
+</html>
